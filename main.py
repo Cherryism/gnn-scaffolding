@@ -1,13 +1,29 @@
-from typing import Union
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+synteny_app = FastAPI()
 
-from fastapi import FastAPI
+synteny_app.mount("/static", StaticFiles(directory="static"), name="static") # /static{/something} >> to static folder
+templates = Jinja2Templates(directory="templates")
 
-app = FastAPI()
+@synteny_app.get("/synteny-graph", response_class=HTMLResponse)
+async def synteny_graph_page(request : Request):
+    
+    return templates.TemplateResponse(
+        request=request, name="synteny_cytoscape.html", context={}
+    )
 
-@app.get("/")
-def read_root():
-	return {"Hello": "World"}
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-	return {"item_id": item_id, "q": q}
+@synteny_app.get("/input-data")
+async def send_input():
+    return [ 
+        { 
+            "data": { "id": 'a' }
+        },
+        { 
+            "data": { 'id': 'b' }
+        },
+        { 
+            'data': { 'id': 'ab', 'source': 'a', 'target': 'b' ,'feature': 'testXXX'}
+        }
+    ]

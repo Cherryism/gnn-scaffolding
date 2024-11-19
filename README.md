@@ -21,9 +21,12 @@ pip install -r requirements.txt
 ## 🚀 Running the Application
 ```bash
 # 개발 서버 실행
-uvicorn main:app --host 0.0.0.0 --port 4035
+uvicorn main:synteny_app --host 0.0.0.0 --port 4035
 ```
 
-## 개발자
+## Test
+- url: http://0.0.0.0:4035/synteny-graph
+
+## Author
 - cherryCookies (@cherryCookies)
 - Youngwon (@yw7148)
