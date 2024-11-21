@@ -5,8 +5,9 @@ from fastapi.templating import Jinja2Templates
 from pathlib import Path
 import pandas as pd
 
-synteny_app = FastAPI()
+edge_fname = "./data/gnnscaff/3kmer_MGW_edge.tsv"
 
+synteny_app = FastAPI()
 synteny_app.mount("/static", StaticFiles(directory="static"), name="static") # /static{/something} >> to static folder
 templates = Jinja2Templates(directory="templates")
 
@@ -20,7 +21,7 @@ async def synteny_graph_page(request : Request):
 async def send_input():
     node_l = []
     edge_l = []
-    for line in open("/Users/charyeongheo/codes/synteny2graph/fastapi_workdir/data/gnnscaff/3kmer_MGW_edge.tsv"):
+    for line in open(edge_fname):
         line = line.strip()
         if line.startswith('#'):
             continue
